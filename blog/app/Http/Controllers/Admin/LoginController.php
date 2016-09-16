@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\model\USer;
+//use App\Http\model\User;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 
@@ -18,8 +18,13 @@ class LoginController extends CommonController
     public function login(){
         if($input = Input::all()){
             $code = $this->code_obj->get();
-            dd($code);
-            dd($input);
+            if(strtoupper($input['code']) != $code){
+                return view('admin.login')->with('msg','验证码错误');
+            }
+            session(['is_login'=>true]);
+            //dd($code);
+            //dd($input);
+            return redirect('admin/index');
         }else{
             return view('admin.login');
         }

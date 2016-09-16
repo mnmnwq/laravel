@@ -4,28 +4,31 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="{{asset('/resources/views/admin/style/css/ch-ui.admin.css')}}">
 	<link rel="stylesheet" href="{{asset('/resources/views/admin/style/font/css/font-awesome.min.css')}}">
+	<script type="text/javascript" src="{{asset('/node_modules/angular/angular.min.js')}}"></script>
 </head>
 <body style="background:#F3F3F4;">
-	<div class="login_box">
+	<div class="login_box" ng-app="myApp">
 		<h1>Blog</h1>
 		<h2>欢迎使用博客管理平台</h2>
-		<div class="form">
-			<p style="color:red">用户名错误</p>
+		<div class="form" ng-controller="firstController">
+		    @if(isset($msg))
+			    <p style="color:red">{{$msg}}</p>
+		    @endif
 			<form action="" method="post">
 			{{csrf_field()}}
 				<ul>
 					<li>
-					<input type="text" name="username" class="text"/>
+					<input type="text" name="user_name" class="text"/>
 						<span><i class="fa fa-user"></i></span>
 					</li>
 					<li>
-						<input type="password" name="password" class="text"/>
+						<input type="password" name="user_pass" class="text"/>
 						<span><i class="fa fa-lock"></i></span>
 					</li>
 					<li>
 						<input type="text" class="code" name="code"/>
 						<span><i class="fa fa-check-square-o"></i></span>
-						<img src="{{url('admin/code')}}" alt="">
+						<img src="{{url('admin/code')}}" alt="" ng-click="changeUrl()">
 					</li>
 					<li>
 						<input type="submit" value="立即登陆"/>
@@ -36,4 +39,10 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+    angular.module('myApp',[]).controller('firstController',function($scope){
+        $scope.changeUrl = function(){
+        }
+    })
+</script>
 </html>
