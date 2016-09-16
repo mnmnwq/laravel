@@ -16,10 +16,10 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware'=>['web']],function(){
-    Route::any('login','LoginController@login');
-    Route::any('code','LoginController@code');
+    Route::any('admin/login','Admin\LoginController@login');
+    Route::get('admin/code','Admin\LoginController@code');
 });
 Route::group(['middleware'=>['web','admin.login'],'namespace'=>'Admin','prefix'=>'admin'],function(){
-    Route::any('index','IndexController@index');
-    Route::any('quit','IndexController@quit');
+    Route::get('index','IndexController@index');
+    Route::get('quit','IndexController@quit');
 });
