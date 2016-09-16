@@ -28,7 +28,7 @@
 					<li>
 						<input type="text" class="code" name="code" ng-required="true"/>
 						<span><i class="fa fa-check-square-o"></i></span>
-						<img src="{{url('admin/code')}}" alt="" ng-click="changeUrl()">
+						<img src="{{url('admin/code')}}" id="codeSrc" alt="" ng-click="changeUrl()">
 					</li>
 					<li>
 						<input type="submit" value="立即登陆"/>
@@ -42,6 +42,9 @@
 <script type="text/javascript">
     angular.module('myApp',[]).controller('firstController',function($scope){
         $scope.changeUrl = function(){
+            var codeSrc = document.getElementById('codeSrc');
+            codeSrc = angular.element(codeSrc).attr('src');
+            alert(codeSrc);
         }
     })
 </script>
