@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class IndexController extends Controller
+class IndexController extends CommonController
 {
     //
 }
