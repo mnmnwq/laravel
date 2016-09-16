@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-//use App\Http\model\User;
+use App\Http\Model\User;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 
@@ -18,6 +18,16 @@ class LoginController extends CommonController
     public function login(){
         if($input = Input::all()){
             $code = $this->code_obj->get();
+            $user_info = User::where('user_name',$input['user_name'])->first();
+            echo md5($input['user_pass'])."<br/>".$user_info['user_pass'];
+            dd();
+            if(!empty($user_info)){
+                if(md5($input['user_pass']) != $user_info['user_pass']){
+                    //return view('admin.login')->with('msg','密码错误');
+                }
+            }else{
+                return view('admin.login')->with('msg','用户名不存在');
+            }
             if(strtoupper($input['code']) != $code){
                 return view('admin.login')->with('msg','验证码错误');
             }
