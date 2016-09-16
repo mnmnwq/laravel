@@ -11,7 +11,8 @@
 		<h2>欢迎使用博客管理平台</h2>
 		<div class="form">
 			<p style="color:red">用户名错误</p>
-			<form action="#" method="post">
+			<form action="" method="post">
+			{{csrf_field()}}
 				<ul>
 					<li>
 					<input type="text" name="username" class="text"/>
