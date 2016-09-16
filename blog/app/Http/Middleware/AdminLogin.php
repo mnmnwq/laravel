@@ -19,7 +19,7 @@ class AdminLogin
             //已登陆
         }else{
             //未登录
-            //return redirect('admin/login');
+            return redirect('admin/login');
         }
         return $next($request);
     }

@@ -21,5 +21,6 @@ Route::group(['middleware'=>['web']],function(){
 });
 Route::group(['middleware'=>['web','admin.login'],'namespace'=>'Admin','prefix'=>'admin'],function(){
     Route::get('index','IndexController@index');
-    Route::get('quit','IndexController@quit');
+    Route::get('quit','LoginController@quit');
+    Route::get('info','IndexController@info');
 });

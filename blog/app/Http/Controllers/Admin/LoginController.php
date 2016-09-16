@@ -19,11 +19,9 @@ class LoginController extends CommonController
         if($input = Input::all()){
             $code = $this->code_obj->get();
             $user_info = User::where('user_name',$input['user_name'])->first();
-            echo md5($input['user_pass'])."<br/>".$user_info['user_pass'];
-            dd();
             if(!empty($user_info)){
                 if(md5($input['user_pass']) != $user_info['user_pass']){
-                    //return view('admin.login')->with('msg','密码错误');
+                    return view('admin.login')->with('msg','密码错误');
                 }
             }else{
                 return view('admin.login')->with('msg','用户名不存在');
@@ -31,15 +29,23 @@ class LoginController extends CommonController
             if(strtoupper($input['code']) != $code){
                 return view('admin.login')->with('msg','验证码错误');
             }
-            session(['is_login'=>true]);
-            //dd($code);
-            //dd($input);
+            unset($user_info['user_pass']);
+            $user_arr = $user_info;
+            session(['is_login'=>true,'user_info'=>$user_arr]);
             return redirect('admin/index');
         }else{
             return view('admin.login');
         }
     }
-    public function quit(){}
+
+    /**
+     * 登出操作
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function quit(){
+        session(['is_login'=>false,'user_info'=>null]);
+        return redirect('admin/login');
+    }
     public function code(){
         $this->code_obj->make();
     }

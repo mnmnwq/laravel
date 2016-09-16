@@ -18,15 +18,15 @@
 			{{csrf_field()}}
 				<ul>
 					<li>
-					<input type="text" name="user_name" class="text"/>
+					<input type="text" name="user_name" class="text" ng-required="true"/>
 						<span><i class="fa fa-user"></i></span>
 					</li>
 					<li>
-						<input type="password" name="user_pass" class="text"/>
+						<input type="password" name="user_pass" class="text" ng-required="true"/>
 						<span><i class="fa fa-lock"></i></span>
 					</li>
 					<li>
-						<input type="text" class="code" name="code"/>
+						<input type="text" class="code" name="code" ng-required="true"/>
 						<span><i class="fa fa-check-square-o"></i></span>
 						<img src="{{url('admin/code')}}" alt="" ng-click="changeUrl()">
 					</li>

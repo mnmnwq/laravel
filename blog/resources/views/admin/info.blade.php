@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="style/css/ch-ui.admin.css">
-	<link rel="stylesheet" href="style/font/css/font-awesome.min.css">
-</head>
-<body>
+@extends('layouts/admin')
+@section('content')
 	<!--面包屑导航 开始-->
 	<div class="crumb_warp">
 		<!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
@@ -80,6 +74,4 @@
         </div>
     </div>
 	<!--结果集列表组件 结束-->
-
-</body>
-</html>
+@endsection
