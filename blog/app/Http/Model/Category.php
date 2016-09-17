@@ -11,7 +11,7 @@ class Category extends Model
     public $timestamps=false;
 
     public function tree(){
-        $cate_info = $this->all();
+        $cate_info = $this->orderBy('cate_order','asc')->get();
         $data = $this->get_tree($cate_info,'cate_name','cate_id','cate_pid');
         return $data;
     }

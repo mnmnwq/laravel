@@ -19,8 +19,7 @@ class CategoryController extends CommonController
     }
     //get.admin/category 全部分类列表
     public function index(){
-        $cate_info = Category::all();
-        $data = $this->cate_obj->get_tree($cate_info,'cate_name','cate_id','cate_pid');
+        $data = $this->cate_obj->tree();
         return view('admin.category.index')->with('data',$data);
     }
 
