@@ -16,8 +16,8 @@
 <!--结果集标题与导航组件 结束-->
 
 <div class="result_wrap">
-    <form method="post" onsubmit="return changePass()">
-        <input type="hidden" name="_token" value="X25wGVjFqDXvq7vAUAJTjTAHfX0RhkGufucRdzGh">
+    <form method="post" action="">
+        {{csrf_field()}}
         <table class="add_tab">
             <tbody>
             <tr>
