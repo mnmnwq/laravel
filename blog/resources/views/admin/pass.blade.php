@@ -1,16 +1,16 @@
 @extends('layouts/admin')
 @section('content')
-    <!--面包屑导航 开始-->
-<div class="crumb_warp">
-    <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-    <i class="fa fa-home"></i> <a href="#">首页</a> &raquo; 修改密码
-</div>
-<!--面包屑导航 结束-->
-
+@include('layouts/adminPubHead/crumbs',['tab'=>'修改密码'])
 <!--结果集标题与导航组件 开始-->
 <div class="result_wrap">
     <div class="result_title">
         <h3>修改密码</h3>
+        @if(isset($msg))
+        <div class="mark">{{$msg}}</div>
+        @endif
+        @if(session('msg'))
+            <div class="mark">{{session('msg')}}</div>
+        @endif
     </div>
 </div>
 <!--结果集标题与导航组件 结束-->

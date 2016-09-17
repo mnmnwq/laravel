@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Illuminate\Foundation\Auth\User;
+use App\Http\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class IndexController extends CommonController
@@ -31,6 +32,12 @@ class IndexController extends CommonController
             }
             if($input['n_pass'] != $input['r_pass']){
                 return view('admin.pass')->with('msg','新密码和确认密码不相同');
+            }
+            $up_result = User::where('user_id',$session_user_info['user_id'])->update(array('user_pass'=>md5($input['n_pass'])));
+            if($up_result){
+                return view('admin.pass')->with('msg','密码修改成功');
+            }else{
+                return view('admin.pass')->with('msg','密码修改失败');
             }
         }else{
             return view('admin.pass');
