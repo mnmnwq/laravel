@@ -23,19 +23,19 @@
             <tr>
                 <th width="120"><i class="require">*</i>原密码：</th>
                 <td>
-                    <input type="password" name="password_o"> </i>请输入原始密码</span>
+                    <input type="password" name="o_pass"> </i>请输入原始密码</span>
                 </td>
             </tr>
             <tr>
                 <th><i class="require">*</i>新密码：</th>
                 <td>
-                    <input type="password" name="password"> </i>新密码6-20位</span>
+                    <input type="password" name="n_pass"> </i>新密码6-20位</span>
                 </td>
             </tr>
             <tr>
                 <th><i class="require">*</i>确认密码：</th>
                 <td>
-                    <input type="password" name="password_c"> </i>再次输入密码</span>
+                    <input type="password" name="r_pass"> </i>再次输入密码</span>
                 </td>
             </tr>
             <tr>

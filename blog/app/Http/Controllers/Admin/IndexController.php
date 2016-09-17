@@ -11,7 +11,15 @@ class IndexController extends CommonController
         return view('admin.index');
     }
 
+    /**
+     * 修改管理员密码
+     */
+    public function pass(){
+        return view('admin.pass');
+    }
+
+
     public function info(){
-        return view('admin/info');
+        return view('admin.info');
     }
 }
