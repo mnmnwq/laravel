@@ -39,6 +39,13 @@ class LoginController extends CommonController
     }
 
     /**
+     * 修改管理员密码
+     */
+    public function pass(){
+        view('admin.pass');
+    }
+
+    /**
      * 登出操作
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

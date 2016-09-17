@@ -43,8 +43,12 @@
     angular.module('myApp',[]).controller('firstController',function($scope){
         $scope.changeUrl = function(){
             var codeSrc = document.getElementById('codeSrc');
-            codeSrc = angular.element(codeSrc).attr('src');
-            alert(codeSrc);
+            var code_obj = angular.element(codeSrc);
+            codeSrc = code_obj.attr('src');
+            //生成随机数
+            var rNum = Math.random();
+            var rUrl = codeSrc+'?'+rNum;
+            code_obj.attr('src',rUrl);
         }
     })
 </script>
