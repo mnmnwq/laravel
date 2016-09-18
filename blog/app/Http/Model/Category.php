@@ -9,6 +9,7 @@ class Category extends Model
     protected $table='category';
     protected $primaryKey='cate_id';
     public $timestamps=false;
+    protected $guarded=[];  //排除敏感字段
 
     public function tree(){
         $cate_info = $this->orderBy('cate_order','asc')->get();
