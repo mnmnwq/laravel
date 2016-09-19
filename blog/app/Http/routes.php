@@ -10,12 +10,11 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['middleware'=>['web']],function(){
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
     Route::any('admin/login','Admin\LoginController@login');
     Route::get('admin/code','Admin\LoginController@code');
 });
