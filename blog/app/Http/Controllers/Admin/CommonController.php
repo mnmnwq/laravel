@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,9 +11,15 @@ class CommonController extends Controller
      * 图片上传
      */
     public function upload(){
-        $input = Input::file('Filedata');
-        dd($input);
-        var_dump($input);
+        $file = Input::file('Filedata');
+        if($file->isValid()){    //验证$file是否有效
+            //$realPath = $file->getRealPath();   //临时文件的真实路径（绝对路径）
+            $entension = $file->getClientOriginalExtension();  //上传文件的后缀
+            $newName = date('YmdHis').mt_rand(100,999).'.'.$entension;
+            $path = $file->move(base_path().'/uploads',$newName);  //移动并且重命名
+            $file_path = 'uploads/'.$newName;
+            return $file_path;
+        }
         exit();
     }
 }

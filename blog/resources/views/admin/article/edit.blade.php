@@ -4,7 +4,7 @@
 <!--结果集标题与导航组件 开始-->
 	<div class="result_wrap">
         <div class="result_title">
-            <h3>添加文章</h3>
+            <h3>编辑文章</h3>
             @if(session('msg'))
             <div class="mark">{{session('msg')}}</div>
             @endif
@@ -19,8 +19,9 @@
     <!--结果集标题与导航组件 结束-->
 
     <div class="result_wrap" ng-app="myApp">
-        <form action="{{url('admin/article')}}" method="post">
+        <form action="{{url('admin/article/'.$field->art_id)}}" method="post">
             {{csrf_field()}}
+            <input type="hidden" name="_method" value="put"/>
             <table class="add_tab">
                 <tbody>
                     <tr>
@@ -28,7 +29,7 @@
                         <td>
                             <select name="cate_id">
                                 @foreach($data as $k=>$v)
-                                <option value="{{$v['cate_id']}}">{{$v['_cate_name']}}</option>
+                                <option value="{{$v['cate_id']}}" @if($v['cate_id']==$field->cate_id)selected @endif>{{$v['_cate_name']}}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -36,21 +37,21 @@
                     <tr>
                         <th>文章标题：</th>
                         <td>
-                            <input type="text" class="lg" name="art_title" ng-required="true">
+                            <input type="text" class="lg" name="art_title" value="{{$field->art_title}}" ng-required="true">
                             {{--<p>标题可以写30个字</p>--}}
                         </td>
                     </tr>
                     <tr>
                         <th>编辑：</th>
                         <td>
-                            <input type="text" class="sm" name="art_editor" ng-required="true">
+                            <input type="text" class="sm" name="art_editor" value="{{$field->art_editor}}" ng-required="true">
                             {{--<span><i class="fa fa-exclamation-circle yellow"></i>这里是短文本长度</span>--}}
                         </td>
                     </tr>
                     <tr>
                         <th>缩略图：</th>
                         <td>
-                            <input type="text" size="50" name="art_thumb" readonly="true">
+                            <input type="text" size="50" name="art_thumb" readonly="true" value="{{$field->art_thumb}}">
                             <input id="file_upload" name="file_upload" type="file" multiple="true" >
                             <script src="{{asset('resources/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
                             <link rel="stylesheet" type="text/css" href="{{asset('resources/org/uploadify/uploadify.css')}}">
@@ -83,19 +84,19 @@
                      <tr>
                         <th></th>
                         <td>
-                            <img src="" id="art_thumb_img" alt="" style="max-width: 350px;max-height: 100px;"/>
+                            <img src="/{{$field->art_thumb}}" id="art_thumb_img" alt="" style="max-width: 350px;max-height: 100px;"/>
                         </td>
                     </tr>
                     <tr>
                         <th>关键词：</th>
                         <td>
-                            <input type="text" class="lg" name="art_keywords">
+                            <input type="text" value='{{$field->art_keywords}}' class="lg" name="art_keywords">
                         </td>
                     </tr>
                     <tr>
                         <th>描述：</th>
                         <td>
-                            <textarea name="art_description"></textarea>
+                            <textarea name="art_description">{{$field->art_description}}</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -104,7 +105,7 @@
                         <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.config.js')}}"></script>
                             <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.all.min.js')}}"> </script>
                             <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/lang/zh-cn/zh-cn.js')}}"></script>
-                            <script id="editor" name="art_content" type="text/plain" style="width:860px;height:500px;" ng-required="true"></script>
+                            <script id="editor" name="art_content" type="text/plain" style="width:860px;height:500px;" ng-required="true">{!!$field->art_content!!}</script>
                             <script type="text/javascript">
                                     var ue = UE.getEditor('editor');
                             </script>
