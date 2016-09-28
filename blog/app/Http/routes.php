@@ -11,14 +11,16 @@
 |
 */
 Route::group(['middleware'=>['web']],function(){
-    Route::get('/', function () {
-        return view('welcome');
-    });
 
-    Route::any('admin/login','Admin\LoginController@login');
-    Route::get('admin/code','Admin\LoginController@code');
 });
-Route::group(['middleware'=>['web','admin.login'],'namespace'=>'Admin','prefix'=>'admin'],function(){
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::any('admin/login','Admin\LoginController@login');
+Route::get('admin/code','Admin\LoginController@code');
+
+Route::group(['middleware'=>['admin.login'],'namespace'=>'Admin','prefix'=>'admin'],function(){
     Route::get('index','IndexController@index');
     Route::get('quit','LoginController@quit');
     Route::get('info','IndexController@info');
