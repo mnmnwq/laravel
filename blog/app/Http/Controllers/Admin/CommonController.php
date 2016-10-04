@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Input;
 
 class CommonController extends Controller
 {
+    public function __construct(){
+    }
     /**
      * 图片上传
      */

@@ -7,11 +7,44 @@ use Illuminate\Support\Facades\Input;
 
 class ConfigController extends CommonController
 {
+    public function __construct(){
+        parent::__construct();
+    }
     /**
      * 信息列表
      */
     public function index(){
         $data = Config::orderBy('conf_order','asc')->get();
+        foreach($data as $k=>$v){
+            switch($v->field_type){
+                case 'input':
+                    $data[$k]->_html='<input type="text" name="conf_content[]" class="lg" value="'.$v->conf_content.'">';
+                    break;
+                case 'textarea':
+                    $data[$k]->_html='<textarea class="lg" name="conf_content[]">'.$v->conf_content.'</textarea>';
+                    break;
+                case 'radio':
+                    $data[$k]->_html = '';
+                    $radio_arr = explode(',',$v->field_value);
+                    foreach($radio_arr as $m=>$n){
+                        $arr = explode('|',$n);
+                        if($v->conf_content == $arr[0]){
+                            if($m != (count($radio_arr) - 1)){
+                                $data[$k]->_html .= '<input type="radio" name="conf_content[]" checked value="'.$arr[0].'">'.$arr[1].'&nbsp;&nbsp;|&nbsp;&nbsp;';
+                            }else{
+                                $data[$k]->_html .= '<input type="radio" name="conf_content[]" checked value="'.$arr[0].'">'.$arr[1];
+                            }
+                        }else{
+                            if($m != (count($radio_arr) - 1)){
+                                $data[$k]->_html .= '<input type="radio" name="conf_content[]" value="'.$arr[0].'">'.$arr[1].'&nbsp;&nbsp;|&nbsp;&nbsp;';
+                            }else{
+                                $data[$k]->_html .= '<input type="radio" name="conf_content[]" value="'.$arr[0].'">'.$arr[1];
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
         return view('admin.config.index',compact('data'));
     }
 
@@ -22,6 +55,7 @@ class ConfigController extends CommonController
     public function destroy($conf_id){
         $re = Config::where('conf_id',$conf_id)->delete();
         if($re){
+            $this->putFile();
             $data = ['status'=>0,'msg'=>'操作成功'];
         }else{
             $data = ['status'=>1,'msg'=>'操作失败'];
@@ -64,6 +98,7 @@ class ConfigController extends CommonController
         $input = Input::except('_token','_method');
         $result = Config::where('conf_id',$conf_id)->update($input);
         if($result){
+            $this->putFile();
             return redirect('admin/config');
         }else{
             return back()->with('msg','修改失败');
@@ -74,6 +109,30 @@ class ConfigController extends CommonController
      * get. admin/config/{config}  显示单个配置项
      */
     public function show(){}
+
+    /**
+     * 网站配置项的写入
+     */
+    public function putFile(){
+        //echo \Illuminate\Support\Facades\Config::get('web.web_count');
+        $config = Config::pluck('conf_content','conf_name')->all();
+        $path = base_path().'\config\web.php';
+        $str = "<?php return ".var_export($config,true).';';
+        file_put_contents($path,$str);
+    }
+
+    /**
+     * 修改配置项的值
+     */
+    public function change_content(){
+        if($input = Input::all()){
+            foreach($input['conf_id'] as $k=>$v){
+                Config::where("conf_id",$v)->update(array('conf_content'=>$input['conf_content'][$k]));
+            }
+            $this->putFile();
+            return back()->with('msg','操作成功');
+        }
+    }
 
     /**
      * ajax请求修改分类order排序

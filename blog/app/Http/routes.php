@@ -29,6 +29,10 @@ Route::group(['middleware'=>['admin.login'],'namespace'=>'Admin','prefix'=>'admi
     Route::post('cate/change_order','CategoryController@change_order');
     Route::post('links/change_order','LinksController@change_order');
     Route::post('navs/change_order','NavsController@change_order');
+    Route::post('config/change_order','ConfigController@change_order');
+    Route::post('config/change_content','ConfigController@change_content');
+    Route::get('config/putFile','ConfigController@putFile');
+
     Route::resource('category','CategoryController');
     Route::resource('article','ArticleController');
     Route::resource('links','LinksController');

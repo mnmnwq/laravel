@@ -1,6 +1,6 @@
 @extends('layouts/admin')
 @section('content')
-@include('layouts/adminPubHead/crumbs',['tab'=>'自定义导航管理'])
+@include('layouts/adminPubHead/crumbs',['tab'=>'配置项管理'])
 	<!--结果页快捷搜索框 开始-->
 	{{--<div class="search_wrap">
         <form action="" method="post">
@@ -24,50 +24,62 @@
     <!--结果页快捷搜索框 结束-->
 
     <!--搜索结果页面 列表 开始-->
-    <form action="#" method="post">
         <div class="result_wrap">
             <div class="result_title">
-                <h3>友情导航列表</h3>
+                <h3>配置项列表</h3>
+                 @if(session('msg'))
+                    <p style="color:deepskyblue">{{session('msg')}}</p>
+                 @endif
             </div>
-            <!--快捷导航 开始-->
+            <!--快捷配置项 开始-->
             <div class="result_content">
                 <div class="short_wrap">
-                    <a href="{{url('admin/navs/create')}}"><i class="fa fa-plus"></i>增加导航</a>
-                    <a href="{{url('admin/navs')}}"><i class="fa fa-recycle"></i>全部导航</a>
+                    <a href="{{url('admin/config/create')}}"><i class="fa fa-plus"></i>增加配置项</a>
+                    <a href="{{url('admin/config')}}"><i class="fa fa-recycle"></i>全部配置项</a>
                 </div>
             </div>
-            <!--快捷导航 结束-->
+            <!--快捷配置项 结束-->
         </div>
 
         <div class="result_wrap">
             <div class="result_content">
+            <form action="{{url('admin/config/change_content')}}" method="post">
+            {{csrf_field()}}
                 <table class="list_tab">
                     <tr>
                         <th class="tc" width="5%">排序</th>
                         <th class="tc" width="5%">ID</th>
-                        <th>导航名称</th>
-                        <th>导航别名</th>
-                        <th>导航地址</th>
+                        <th>标题</th>
+                        <th>名称</th>
+                        <th>内容</th>
                         <th>操作</th>
                     </tr>
                     @foreach($data as $v)
                     <tr>
                         <td class="tc">
-                            <input type="text" name="changerOrder"  value="{{$v->nav_order}}" onchange="changeOrder(this,{{$v->nav_id}})"/>
+                            <input type="text" value="{{$v->conf_order}}" onchange="changeOrder(this,{{$v->conf_id}})"/>
                         </td>
-                        <td class="tc">{{$v->nav_id}}</td>
+                        <td class="tc">{{$v->conf_id}}</td>
                         <td>
-                            <a href="#">{{$v->nav_name}}</a>
+                            <a href="#">{{$v->conf_title}}</a>
                         </td>
-                        <td>{{$v->nav_alias}}</td>
-                        <td>{{$v->nav_url}}</td>
+                        <td>{{$v->conf_name}}</td>
                         <td>
-                            <a href="{{url('admin/navs/'.$v->nav_id.'/edit')}}">修改</a>
-                            <a href="javascript::" onclick="delLink({{$v->nav_id}})">删除</a>
+                            <input type="hidden" name="conf_id[]" value="{{$v->conf_id}}"/>
+                            {!!$v->_html!!}
+                        </td>
+                        <td>
+                            <a href="{{url('admin/config/'.$v->conf_id.'/edit')}}">修改</a>
+                            <a href="javascript::" onclick="delLink({{$v->conf_id}})">删除</a>
                         </td>
                     </tr>
                     @endforeach
                 </table>
+                <div class="btn_group">
+                    <input type="submit" value="提交">
+                    <input type="button" class="back" onclick="history.go(-1)" value="返回" >
+                </div>
+            </form>
                 {{--<div class="page_nav">
                     <div>
                         <a class="first" href="/wysls/index.php/Admin/Tag/index/p/1.html">第一页</a>
@@ -95,12 +107,11 @@
                 </div>--}}
             </div>
         </div>
-    </form>
 <!--搜索结果页面 列表 结束-->
 <script type="text/javascript">
-    function changeOrder(obj,nav_id){
-        var nav_order = $(obj).val();
-        $.post('{{url('admin/navs/change_order')}}',{'_token':'{{csrf_token()}}','nav_order':nav_order,'nav_id':nav_id},function(data){
+    function changeOrder(obj,conf_id){
+        var conf_order = $(obj).val();
+        $.post('{{url('admin/config/change_order')}}',{'_token':'{{csrf_token()}}','conf_order':conf_order,'conf_id':conf_id},function(data){
             if(data['state'] == '0'){
                 layer.msg(data['msg'], {icon: 6});
             }else{
@@ -109,11 +120,11 @@
         });
     }
     //删除分类
-    function delLink(nav_id){
-        layer.confirm('您确定要删除这个导航信息么？', {
+    function delLink(conf_id){
+        layer.confirm('您确定要删除这个配置项信息么？', {
           btn: ['确定','取消'] //按钮
         }, function(){
-            $.post('{{url('admin/navs/')}}/'+nav_id,{'_method':'delete','_token':'{{csrf_token()}}'},function(data){
+            $.post('{{url('admin/config/')}}/'+conf_id,{'_method':'delete','_token':'{{csrf_token()}}'},function(data){
                 if(data.status == 0){
                     location.href = location.href;
                     layer.msg(data.msg, {icon: 6});
