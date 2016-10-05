@@ -18,8 +18,8 @@ class CommonController extends Controller
             //$realPath = $file->getRealPath();   //临时文件的真实路径（绝对路径）
             $entension = $file->getClientOriginalExtension();  //上传文件的后缀
             $newName = date('YmdHis').mt_rand(100,999).'.'.$entension;
-            $path = $file->move(base_path().'/uploads',$newName);  //移动并且重命名
-            $file_path = 'uploads/'.$newName;
+            $path = $file->move(base_path().'/uploads/'.date('ymd',time()),$newName);  //移动并且重命名
+            $file_path = 'uploads/'.date('ymd',time()).'/'.$newName;
             return $file_path;
         }
         exit();

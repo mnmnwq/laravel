@@ -31,7 +31,7 @@ class LoginController extends CommonController
             }
             unset($user_info['user_pass']);
             $user_arr = $user_info;
-            session(['is_login'=>true,'user_info'=>$user_arr]);
+            session(['admin_is_login'=>true,'user_info'=>$user_arr]);
             return redirect('admin/index');
         }else{
             return view('admin.login');

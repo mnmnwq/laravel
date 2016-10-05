@@ -14,9 +14,10 @@ Route::group(['middleware'=>['web']],function(){
 
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','Home\IndexController@index');
+Route::get('/cate','Home\IndexController@cate');
+Route::get('/art','Home\IndexController@article');
+
 Route::any('admin/login','Admin\LoginController@login');
 Route::get('admin/code','Admin\LoginController@code');
 
