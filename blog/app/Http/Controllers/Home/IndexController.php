@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Model\Article;
+use App\Http\Model\Category;
 use App\Http\Model\Config;
 use App\Http\Model\Links;
 
@@ -18,6 +19,7 @@ class IndexController extends CommonController
     public function index(){
         //点击量最高的六篇文章
         $hot_art = Article::orderBy('art_view','desc')->take(6)->get();
+        $hot = Article::orderBy('art_view','desc')->take(5)->get();
         //图文列表（带分页效果）
         $data = Article::orderBy('art_time','desc')->paginate(5);
         //最新发布文章（八篇）
@@ -25,15 +27,17 @@ class IndexController extends CommonController
         //友情链接
         $links = Links::orderBy('link_order','asc')->get();
         //配置项读取
-
-        return view('home.index',compact('hot_art','data','new_data','links'));
+        return view('home.index',compact('hot_art','data','hot','new_data','links'));
     }
 
     /**
      * 列表页
      */
-    public function cate(){
-        return view('home.list');
+    public function cate($cate_id){
+        $field = Category::find($cate_id);
+        //图文列表（带分页效果）
+        $data = Article::where('cate_id',$cate_id)->orderBy('art_time','desc')->paginate(4);
+        return view('home.list',compact('field','data'));
     }
 
     /**
