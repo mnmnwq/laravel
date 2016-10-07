@@ -56,30 +56,15 @@
     </script>
         <!-- Baidu Button END -->
     <div class="news" style="float: left">
-    <h3>
-      <p>最新<span>文章</span></p>
-    </h3>
-    <ul class="rank">
-      @foreach($new_data as $n)
-      <li><a href="{{url('a/'.$n->art_id)}}" title="{{$n->art_title}}" target="_blank">{{$n->art_title}}</a></li>
-      @endforeach
-    </ul>
-    <h3 class="ph">
-      <p>点击<span>排行</span></p>
-    </h3>
-    <ul class="paih">
-    @foreach($hot as $hh)
-      <li><a href="{{url('a/'.$hh->art_id)}}" title="{{$hh->art_title}}" target="_blank">{{$hh->art_title}}</a></li>
-      @endforeach
-    </ul>
-    <h3 class="links">
-      <p>友情<span>链接</span></p>
-    </h3>
-    <ul class="website">
-    @foreach($links as $l)
-      <li><a href="{{$l->link_url}}" target="_blank">{{$l->link_name}}</a></li>
-      @endforeach
-    </ul>
+        @parent
+        <h3 class="links">
+          <p>友情<span>链接</span></p>
+        </h3>
+        <ul class="website">
+        @foreach($links as $l)
+          <li><a href="{{$l->link_url}}" target="_blank">{{$l->link_name}}</a></li>
+          @endforeach
+        </ul>
     </div>
 
     </aside>

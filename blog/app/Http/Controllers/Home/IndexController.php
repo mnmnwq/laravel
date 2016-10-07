@@ -19,11 +19,8 @@ class IndexController extends CommonController
     public function index(){
         //点击量最高的六篇文章
         $hot_art = Article::orderBy('art_view','desc')->take(6)->get();
-        $hot = Article::orderBy('art_view','desc')->take(5)->get();
         //图文列表（带分页效果）
         $data = Article::orderBy('art_time','desc')->paginate(5);
-        //最新发布文章（八篇）
-        $new_data = Article::orderBy('art_time','desc')->take(8)->get();
         //友情链接
         $links = Links::orderBy('link_order','asc')->get();
         //配置项读取
@@ -34,16 +31,26 @@ class IndexController extends CommonController
      * 列表页
      */
     public function cate($cate_id){
+        //查看次数自增
+        Category::where('cate_id',$cate_id)->increment('cate_view');
         $field = Category::find($cate_id);
         //图文列表（带分页效果）
         $data = Article::where('cate_id',$cate_id)->orderBy('art_time','desc')->paginate(4);
-        return view('home.list',compact('field','data'));
+        //当前分类的子分类
+        $submenu = Category::where('cate_pid',$cate_id)->get();
+        return view('home.list',compact('field','data','submenu'));
     }
 
     /**
      * 文章页
      */
-    public function article(){
-        return view('home.new');
+    public function article($art_id){
+        //查看次数自增
+        Article::where('art_id',$art_id)->increment('art_view');
+        $field = Article::Join('category','article.cate_id','=','category.cate_id')->where('art_id',$art_id)->first();
+        $article['pre'] = Article::where('art_id','<',$art_id)->orderBy('art_id','desc')->first();
+        $article['next'] = Article::where('art_id','>',$art_id)->orderBy('art_id','asc')->first();
+        $data = Article::where('cate_id',$field->cate_id)->orderBy('art_id','desc')->take(6)->get();
+        return view('home.new',compact('field','article','data'));
     }
 }
