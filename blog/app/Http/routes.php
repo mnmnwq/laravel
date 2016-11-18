@@ -15,6 +15,7 @@ Route::group(['middleware'=>['web']],function(){
 });
 
 Route::get('/','Home\IndexController@index');
+Route::get('/test','Home\IndexController@test');
 Route::get('/cate/{cate_id}','Home\IndexController@cate');
 Route::get('/a/{art_id}','Home\IndexController@article');
 
@@ -41,4 +42,9 @@ Route::group(['middleware'=>['admin.login'],'namespace'=>'Admin','prefix'=>'admi
     Route::resource('config','ConfigController');
 
     Route::any('upload','CommonController@upload');
+    //api定义的路由
+    $api = app('Dingo\Api\Routing\Router');
+    $api->version('v1', function ($api) {
+        $api->post('/api_test','App\Http\Controllers\Home\IndexController@api');
+    });
 });

@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'prefix' => env('API_PREFIX', 'api.myapp.com'),
+    'prefix' => env('API_PREFIX', 'api'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +169,9 @@ return [
     */
 
     'auth' => [
-
+        'basic' => function($app){
+            return new Dingo\Api\Auth\Provider\Basic($app['auth']);
+        }
     ],
 
     /*

@@ -27,6 +27,14 @@ class IndexController extends CommonController
         return view('home.index',compact('hot_art','data','hot','new_data','links'));
     }
 
+    public function api(){
+        echo 111111;
+    }
+
+    public function test(){
+        return view('home.header');
+    }
+
     /**
      * 列表页
      */
